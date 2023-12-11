@@ -14,30 +14,39 @@ st.set_page_config(
 
 st.title('Super Scrappeur BDM')
 
-search = st.text_input('Recherche')
+search = st.text_input('Recherche', placeholder='Adobe, web, IA, ...')
+pages = st.slider('Nombre de pages', 1, 10, 1)
 
 if st.button('Valider'):
     st.write('Vous avez choisi', search)
 
-    results_dict = {}
+    with st.spinner('Chargement en cours...'):
 
-    for index_page in range(1, 2): 
-        url = f'https://www.blogdumoderateur.com/page/{str(index_page)}/'
+        results_dict = {}
 
-        search_clean = search.replace(' ', '+')
-        url_search = url + '?s=' + search_clean
+        for index_page in range(1, pages): 
+            url = f'https://www.blogdumoderateur.com/page/{str(index_page)}/'
 
-        dict_page = scraping_bdm(url_search)
-        results_dict.update(dict_page)
+            search_clean = search.replace(' ', '+')
+            url_search = url + '?s=' + search_clean
 
-    df = pd.DataFrame(results_dict).T
-    st.write(df)
+            try : 
+                dict_page = scraping_bdm(url_search)
+                results_dict.update(dict_page)
+            except:
+                pass
 
-    file_name = search.replace(' ', '_') + '.csv'
+        df = pd.DataFrame(results_dict).T
+        st.write(df)
 
-    st.download_button(
-        label="Télécharger les données",
-        data=df.to_csv().encode('utf-8'),
-        file_name=file_name,
-        mime='text/csv'
-    )
+        file_name = search.replace(' ', '_') + '.csv'
+
+        st.download_button(
+            label="Télécharger les données",
+            data=df.to_csv().encode('utf-8'),
+            file_name=file_name,
+            mime='text/csv'
+        )
+
+    st.balloons()
+

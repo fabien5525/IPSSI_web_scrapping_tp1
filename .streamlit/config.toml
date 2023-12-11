@@ -1,6 +1,11 @@
+# Discord Branding Dark Theme Config for Streamlit App with Higher Contrast
+
 [theme]
-primaryColor = "#ff0000"
-backgroundColor = "#000000"
-secondaryBackgroundColor = "#000000"
-textColor = "#ffffff"
-font = "Arial"
+primaryColor = "#7289DA"  # Discord's primary purple color
+backgroundColor = "#36393F"  # Dark background color
+secondaryBackgroundColor = "#2F3136"  # Slightly lighter secondary background color
+textColor = "#FFFFFF"  # White text color for better contrast
+
+[header]
+backgroundColor = "#7289DA"  # Discord purple for header background
+textColor = "#FFFFFF"  # White text color for header
