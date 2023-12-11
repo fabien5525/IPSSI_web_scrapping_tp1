@@ -26,9 +26,6 @@ def scraping_bdm(url):
                 link = src.split(' ')[0]
                 size = src.split(' ')[1]
 
-                print ('link : {}'.format(link))
-                print ('size : {}'.format(size))
-
                 # size is in the format 123w
                 size = int(size[:-1])
 
