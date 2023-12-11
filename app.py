@@ -24,7 +24,7 @@ if st.button('Valider'):
 
         results_dict = {}
 
-        for index_page in range(1, pages): 
+        for index_page in range(1, pages+1): 
             url = f'https://www.blogdumoderateur.com/page/{str(index_page)}/'
 
             search_clean = search.replace(' ', '+')

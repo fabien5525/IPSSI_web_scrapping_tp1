@@ -13,15 +13,36 @@ def scraping_bdm(url):
     for article in articles:
         id = article.get('id')
 
-        title = article.find('h3').text.replace('\xa0', ' ')            # Title
+        title = article.find('h3').text.replace('\xa0', ' ')
 
         try:
-            image = article.find('img')['src']                # Image
+            srcs = article.find('img').attrs['srcset'].split(',')
+
+            selected_size = 0
+
+            for src in srcs:
+
+                src = src.strip()
+                link = src.split(' ')[0]
+                size = src.split(' ')[1]
+
+                print ('link : {}'.format(link))
+                print ('size : {}'.format(size))
+
+                # size is in the format 123w
+                size = int(size[:-1])
+
+                if size > selected_size:
+                    selected_size = size
+                    image = link
         except:
-            image = None
+            try:
+                image = article.find('img')['src']
+            except:
+                pass
 
         try:
-            link = article.find('a')["href"]                            # Link
+            link = article.find('a')["href"]                
         except:
             link = article.parent['href']
 

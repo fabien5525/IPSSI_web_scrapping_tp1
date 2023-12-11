@@ -12,7 +12,7 @@ def cols(infos):
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.image(infos['image'], width=100)
+        st.image(infos['image'], width=200)
 
     with col2:
         st.write(infos['title'])
@@ -27,11 +27,8 @@ def table():
         df = pd.read_json(f).T
         
         for index, row in df.iterrows():
+            st.divider()
             cols(row)
-
-            # divider if not the last row
-            if index != len(df) - 1:
-                st.divider()
 
 try:
     table()
