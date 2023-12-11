@@ -34,7 +34,7 @@ if st.button('Valider'):
                 dict_page = scraping_bdm(url_search)
                 results_dict.update(dict_page)
             except:
-                pass
+                break
 
         df = pd.DataFrame(results_dict).T
         st.write(df)
@@ -49,4 +49,5 @@ if st.button('Valider'):
         )
 
     st.snow()
+    st.toast('Scraping terminé !', icon='🎉')
 
