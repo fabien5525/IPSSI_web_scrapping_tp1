@@ -12,6 +12,8 @@ st.set_page_config(
 # scrapper en fonction de la recherche les artciles surl e site BDM
 # Permettre à l'applidation de téélcharger les données en csv
 
+st.title('Super Scrappeur BDM')
+
 search = st.text_input('Recherche')
 
 if st.button('Valider'):
@@ -31,9 +33,11 @@ if st.button('Valider'):
     df = pd.DataFrame(results_dict).T
     st.write(df)
 
+    file_name = search.replace(' ', '_') + '.csv'
+
     st.download_button(
         label="Télécharger les données",
         data=df.to_csv().encode('utf-8'),
-        file_name='bdm.csv',
+        file_name=file_name,
         mime='text/csv'
     )
