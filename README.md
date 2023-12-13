@@ -3,21 +3,21 @@
 ## Cours :
 
 * Beautiful soup
-* * app
+    * app
 
 * enregsitrement csv
-* * fichier
+    * fichier
 
 * selenium
-* * ldlc
-* * ldlc display
+    * ldlc
+    * ldlc display
 
 * Scrapy & SqlAlchemy
-* * Boursorama
-* * Boursorama display
+    * Boursorama
+    * Boursorama display
 
 * Scrapy & Fast API + SqlAlchemy (iframe)
-* * myanimelist
+    * myanimelist
 
 ## Démarer le projet
 
