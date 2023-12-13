@@ -2,11 +2,16 @@ import json
 from bs4 import BeautifulSoup
 import requests
 from selenium.webdriver.common.by import By
+from WebCrawler.WebCrawler.items import BoursoramaItem
 from models.article import Article
 from models.base import Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from pandas import DataFrame
+
+from WebCrawler.WebCrawler.models.boursorama import Boursorama
+from WebCrawler.WebCrawler.models.base import Base as BoursoramaBase
+
 
 def scraping_bdm(url):
     response_bdm = requests.get(url)
@@ -162,3 +167,52 @@ def clear_articles():
         session.commit()
 
     engine.dispose()
+
+def get_all_boursorama_from_db():
+
+    data = {}
+
+    try: 
+        engine = create_engine('sqlite:///WebCrawler/WebCrawler/spiders/sqlite.db', echo=True)
+        BoursoramaBase.metadata.create_all(engine)
+
+        with Session(engine) as session:
+            boursoramas = session.query(Boursorama).all()
+            session.commit()
+
+            for boursorama in boursoramas:
+                data[boursorama.id] = {
+                    'label': boursorama.label,
+                    'last': boursorama.last,
+                    'variation': boursorama.variation,
+                    'opening': boursorama.opening,
+                    'highest': boursorama.highest,
+                    'lowest': boursorama.lowest,
+                    'volume': boursorama.volume,
+                    'valorization': boursorama.valorization,
+                    'datetime': boursorama.datetime
+                }
+
+        engine.dispose()
+    
+    except:
+        pass
+
+    return DataFrame.from_dict(data, orient='index')
+
+def clear_boursorama():
+    try: 
+        engine = create_engine('sqlite:///WebCrawler/WebCrawler/spiders/sqlite.db', echo=True)
+        BoursoramaBase.metadata.create_all(engine)
+
+        with Session(engine) as session:
+            boursoramas = session.query(Boursorama).all()
+            session.commit()
+
+            for boursorama in boursoramas:
+                session.delete(boursorama)
+            session.commit()
+
+        engine.dispose()
+    except:
+        pass
