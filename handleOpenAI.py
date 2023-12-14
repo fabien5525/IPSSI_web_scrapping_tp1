@@ -147,19 +147,24 @@ def handleJson(prompt) -> str:
     # get html from url
     response = requests.get(prompt).text
     soup = BeautifulSoup(response, "html.parser")
-    html_text = soup.body.text.replace("\n", " ").replace("\t", " ")
+    html_text = soup.body
 
+    # remove script, style, head, header, footer, iframe, canvas, noscript, form
+    for tag in html_text(["script", "style", "head", "header", "footer", "iframe", "canvas", "noscript", "form"]):
+        tag.decompose()
+
+    html_text = html_text.text.replace("\n", " ").replace("\t", " ")
     html_text = html_text[:5000]
 
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system",
-            "content": "Tu es un expert web et json, tu dois trouver dans le html les artciles ou données et me les rendre sous format json"},
+            "content": "Tu es un expert web et json, tu dois trouver dans le html les artciles ou données et me les rendre sous format json impérativement"},
             {"role": "user",
             "content": html_text},
         ],
-        temperature=0.9,
+        temperature=0.2,
     )
 
     try:

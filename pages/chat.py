@@ -32,5 +32,14 @@ if prompt := st.chat_input("What is up?"):
                 st.image(response)
             else:
                 st.markdown(response)
+
+                # if response is a json, disoply a download button
+                if response.startswith('{'):
+                    st.download_button(
+                        label="Télécharger le json",
+                        data=response.encode('utf-8'),
+                        file_name='response.json',
+                        mime='application/json'
+                    )
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
