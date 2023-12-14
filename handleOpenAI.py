@@ -140,15 +140,25 @@ def handleActu(prompt) -> str:
         return 'Une erreur est survenue'
 
 def handleJson(prompt) -> str:
+    # check if prompt is an url
+    if not prompt.startswith('http'):
+        return 'L\'url n\'est pas valide'
+    
+    # get html from url
+    response = requests.get(prompt).text
+    soup = BeautifulSoup(response, "html.parser")
+    html_text = soup.body.text.replace("\n", " ").replace("\t", " ")
+
+    html_text = html_text[:5000]
+
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system",
-            "content": "Tu es un expert du json et tu dois convertire le texte qu'on te donne en json, sans commentaire ou explication"},
+            "content": "Tu es un expert web et json, tu dois trouver dans le html les artciles ou données et me les rendre sous format json"},
             {"role": "user",
-            "content": prompt},
+            "content": html_text},
         ],
-        max_tokens=200,
         temperature=0.9,
     )
 
