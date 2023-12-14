@@ -1,6 +1,11 @@
 import streamlit as st
 import pandas as pd
 from function import scraping_bdm
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 
 st.set_page_config(
     page_title="Streamlit App",

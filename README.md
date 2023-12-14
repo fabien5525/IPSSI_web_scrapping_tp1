@@ -21,6 +21,11 @@
 
 ## Démarer le projet
 
+Copier et remplir le .env
+~~~
+cp .env.dist .env
+~~~
+
 ~~~
 .venv/Scripts/activate
 pip install -r requirements.txt
